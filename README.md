@@ -4,6 +4,8 @@ A simple Blender addon that adds a panel with buttons in the sidebar (N key) in 
 
 The main reason this addon was made - you can select the desired rig in a dropdown menu in advance, and then work with the buttons — no need to reselect it or switch modes every time.
 
+![screenshot](234235235.jpg)
+
 ## Features & Buttons:
 - **Toggle Bone Visibility** — Quick access to show/hide bones in the viewport.
 - **Target Rig Selector** — Choose your armature.
