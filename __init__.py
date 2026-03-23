@@ -238,7 +238,7 @@ class RIGRESET_PT_main_panel(Panel):
         row.prop(props, "target_rig", text="")
 
         col = layout.column(align=True)
-        col.operator("rigreset.select_rig_and_pose", text="Select & Pose")
+        col.operator("rigreset.select_rig_and_pose", text="Select & Pose", icon='OBJECT_DATA')
         col.operator("rigreset.pose_all_visible", text="Pose All Visible", icon='OUTLINER_OB_ARMATURE')
 
         layout.separator()
