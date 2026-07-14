@@ -1,0 +1,18 @@
+schema_version = "1.0.0"
+
+id = "rig_pose_resetter"
+version = "1.2.2"
+name = "Rig Pose Resetter"
+tagline = "Quickly switch Pose/Rest and reset pose with one button"
+maintainer = "Desperaski"
+type = "add-on"
+
+website = "https://github.com/Desperaski/Rig-Pose-Resetter"
+
+tags = ["Rigging", "User Interface"]
+
+blender_version_min = "4.2.0"
+
+license = [
+  "SPDX:GPL-3.0-or-later",
+]

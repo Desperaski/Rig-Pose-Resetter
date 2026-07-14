@@ -6,7 +6,7 @@ class RigResetProperties(PropertyGroup):
     target_rig: PointerProperty(
         name="Target Rig",
         type=bpy.types.Object,
-        poll=lambda self, obj: obj.type == 'ARMATURE' and (not obj.library or obj.override_library),
+        poll=lambda self, obj: obj.type == 'ARMATURE' and (not obj.library or obj.override_library) and obj.name in bpy.context.view_layer.objects,
         description="Rig to work with"
     )
     apply_confirm: BoolProperty(
@@ -14,7 +14,6 @@ class RigResetProperties(PropertyGroup):
         default=False,
         description="Enable the Apply Selected as Rest button"
     )
-
     show_danger_zone: BoolProperty(
         name="Show Danger Zone",
         default=False
@@ -224,7 +223,8 @@ class RIGRESET_PT_main_panel(Panel):
     bl_idname = "RIGRESET_PT_main_panel"
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
-    bl_category = "Pose Resetter"
+    bl_category = "Marionette"
+    bl_order = 0
 
     def draw(self, context):
         layout = self.layout
@@ -301,3 +301,6 @@ def unregister():
     for cls in reversed(classes):
         bpy.utils.unregister_class(cls)
     del bpy.types.Scene.rigreset_props
+    
+if __name__ == "__main__":
+    register()
