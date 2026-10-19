@@ -1,5 +1,5 @@
 import bpy
-from bpy.props import PointerProperty, BoolProperty
+from bpy.props import PointerProperty
 from bpy.types import Panel, Operator, PropertyGroup
 
 class RigResetProperties(PropertyGroup):
@@ -9,29 +9,6 @@ class RigResetProperties(PropertyGroup):
         poll=lambda self, obj: obj.type == 'ARMATURE' and (not obj.library or obj.override_library) and obj.name in bpy.context.view_layer.objects,
         description="Rig to work with"
     )
-    apply_confirm: BoolProperty(
-        name="Enable Apply as Rest",
-        default=False,
-        description="Enable the Apply Selected as Rest button"
-    )
-    show_danger_zone: BoolProperty(
-        name="Show Danger Zone",
-        default=False
-    )
-
-class RigResetPreferences(bpy.types.AddonPreferences):
-    bl_idname = __package__
-
-    enable_danger_section: BoolProperty(
-        name="Enable Danger Zone Section (deprecated)",
-        default=False,
-    )
-
-    def draw(self, context):
-        layout = self.layout
-        row = layout.row()
-        row.prop(self, "enable_danger_section", toggle=False)
-        row.label(text="") 
 
 class RIGRESET_OT_pose_position(Operator):
     bl_idname = "rigreset.pose_position"
@@ -224,13 +201,12 @@ class RIGRESET_PT_main_panel(Panel):
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
     bl_category = "Marionette"
-    bl_order = 0
+    bl_order = 10
 
     def draw(self, context):
         layout = self.layout
         props = context.scene.rigreset_props
         rig = props.target_rig
-        addon_prefs = context.preferences.addons[__package__].preferences
 
         row = layout.row(align=True)
         icon = 'HIDE_OFF' if context.space_data.overlay.show_bones else 'HIDE_ON'
@@ -258,29 +234,12 @@ class RIGRESET_PT_main_panel(Panel):
         col.operator("rigreset.reset_all_to_rest", text="Reset All", icon='LOOP_BACK')
         col.operator("rigreset.reset_selected_to_rest", text="Reset Selected", icon='RESTRICT_SELECT_OFF')
 
-        if rig and addon_prefs.enable_danger_section:
-
-            layout.separator()
-
-            box = layout.box()
-            row = box.row(align=True)
-            row.prop(props, "show_danger_zone", 
-                    icon="TRIA_DOWN" if props.show_danger_zone else "TRIA_RIGHT", 
-                    text="", emboss=False)
-            row.label(text="DANGER ZONE", icon='ERROR')
-
-            if props.show_danger_zone:
-                inner = box.column()
-                inner.prop(props, "apply_confirm", text="Enable Modifications")
-                
-                sub = inner.row()
-                sub.enabled = props.apply_confirm
-                sub.scale_y = 1.2
-                sub.operator("rigreset.apply_as_rest", text="Apply Selected as Rest", icon='CHECKBOX_HLT')
+        layout.separator()
+        row = layout.row()
+        row.operator("rigreset.apply_as_rest", text="Apply Selected as Rest", icon='CHECKBOX_HLT')
 
 classes = (
     RigResetProperties,
-    RigResetPreferences,
     RIGRESET_OT_pose_position,
     RIGRESET_OT_rest_position,
     RIGRESET_OT_reset_all_to_rest,

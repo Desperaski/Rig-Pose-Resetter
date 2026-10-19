@@ -1,7 +1,7 @@
 schema_version = "1.0.0"
 
 id = "rig_pose_resetter"
-version = "1.2.2"
+version = "1.2.3"
 name = "Rig Pose Resetter"
 tagline = "Quickly switch Pose/Rest and reset pose with one button"
 maintainer = "Desperaski"
